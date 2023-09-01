@@ -1,0 +1,41 @@
+layout {
+    default_tab_template {
+        // the default zellij tab-bar and status bar plugins
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        children
+        pane size=2 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+    }
+	tab name="games locker" cwd="$HOME/code/mine/games_locker" {
+        pane split_direction="vertical" {
+            pane size="20%" {
+                pane name="db" {
+                    command "docker";
+                    args "start" "-a" "games_locker_db"
+                }
+                pane name="test" {
+                    command "cargo"
+                    args "test"
+                    start_suspended true
+                }
+            }
+            pane {
+                command "ranger"
+                args "/Users/brooks/code/mine/games_locker"
+            }
+        }
+        pane size="15%" {
+            pane split_direction="vertical" {
+                pane name="run"  {
+                    command "cargo"
+                    args "watch" "-x" "run"
+                    start_suspended true
+                }
+                pane name="terminal"
+            }
+        }
+	}
+}
